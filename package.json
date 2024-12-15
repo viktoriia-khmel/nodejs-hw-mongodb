@@ -1,0 +1,25 @@
+{
+  "name": "nodejs-hw-01",
+  "version": "1.0.0",
+  "description": "nodejs-hw-01",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "get-all": "node src/scripts/getAllContacts",
+    "generate": "node src/scripts/generateContacts.js",
+    "add-one": "node src/scripts/addOneContact.js",
+    "count": "node src/scripts/countContacts.js",
+    "remove-last": "node src/scripts/removeLastContact.js",
+    "remove-all": "node src/scripts/removeAllContacts.js"
+  },
+  "keywords": [],
+  "author": "Viktoriia Khmel <legchilova.viktoria@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@faker-js/faker": "^9.2.0",
+    "eslint": "^9.15.0",
+    "globals": "^15.12.0",
+    "nodemon": "^3.1.7"
+  }
+}
