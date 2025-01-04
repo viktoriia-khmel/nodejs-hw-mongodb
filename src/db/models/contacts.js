@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { typeList } from '../../constants/contacts.js';
 
 const contactSchema = new Schema(
   {
@@ -22,7 +23,7 @@ const contactSchema = new Schema(
       type: String,
       required: true,
       default: 'personal',
-      enum: ['work', 'home', 'personal'],
+      enum: typeList,
     },
   },
   {
@@ -30,5 +31,34 @@ const contactSchema = new Schema(
     timestamps: true,
   },
 );
+
+export const sortByList = [
+  '_id',
+  'name',
+  'phoneNumber',
+  'email',
+  'isFavourite',
+  'contactType',
+];
+
+// додаткова перевірка всередені mongoose замість middleware isValidId
+
+// contactSchema.post("save", (error, doc, next) => {
+//   error.status = 400;
+//   next();
+// });
+
+// contactSchema.post("findOneAndUpdate", (error, doc, next) => {
+//   error.status = 400;
+//   next();
+// });
+
+// додаткова перевірка всередині mongoose для операції оновлення
+
+// contactSchema.pre("findOneAndUpdate", function(next){
+//   this.options.new = true;
+//   this.options.runValidators = true;
+//   next();
+// });
 
 export const contactsCollection = model('contacts', contactSchema);

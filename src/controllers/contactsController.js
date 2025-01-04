@@ -6,9 +6,17 @@ import {
   deleteContact,
 } from '../services/contacts.js';
 import createError from 'http-errors';
+import { contactAddSchema } from '../validation/contactsSchema.js';
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
+import { sortByList } from '../db/models/contacts.js';
+// import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const getAllContactsController = async (req, res) => {
-  const contacts = await getContacts();
+  const { page, perPage } = parsePaginationParams(req.query);
+  const { sortBy, sortOrder } = parseSortParams(req.query, sortByList);
+  // const { type, isFavourite } = parseFilterParams(req.query);
+  const contacts = await getContacts({ page, perPage, sortBy, sortOrder });
   res.json({
     status: 200,
     message: 'Successfully found contacts!',
@@ -35,6 +43,14 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const addContactController = async (req, res) => {
+  try {
+    await contactAddSchema.validateAsync(req.body, {
+      abortEarly: false,
+    });
+  } catch (error) {
+    throw createError(400, error.message);
+  }
+
   const data = await addContact(req.body);
   res.status(201).json({
     status: 201,
