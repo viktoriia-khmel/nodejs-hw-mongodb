@@ -10,13 +10,19 @@ import { contactAddSchema } from '../validation/contactsSchema.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { sortByList } from '../db/models/contacts.js';
-// import { parseFilterParams } from '../utils/parseFilterParams.js';
+import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const getAllContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query, sortByList);
-  // const { type, isFavourite } = parseFilterParams(req.query);
-  const contacts = await getContacts({ page, perPage, sortBy, sortOrder });
+  const filter = parseFilterParams(req.query);
+  const contacts = await getContacts({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+    filter,
+  });
   res.json({
     status: 200,
     message: 'Successfully found contacts!',
