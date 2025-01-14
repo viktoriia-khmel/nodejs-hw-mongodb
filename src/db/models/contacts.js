@@ -25,6 +25,11 @@ const contactSchema = new Schema(
       default: 'personal',
       enum: typeList,
     },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+    },
   },
   {
     versionKey: false,
@@ -41,7 +46,8 @@ export const sortByList = [
   'contactType',
 ];
 
-// додаткова перевірка всередені mongoose замість middleware isValidId
+// додаткова перевірка всередені mongoose замість middleware isValidId,
+// можна винести функції в окремий файл hooks.js
 
 // contactSchema.post("save", (error, doc, next) => {
 //   error.status = 400;
