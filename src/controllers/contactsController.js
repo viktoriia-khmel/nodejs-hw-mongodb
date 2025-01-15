@@ -33,7 +33,7 @@ export const getAllContactsController = async (req, res) => {
 
 export const getContactByIdController = async (req, res) => {
   const { _id: userId } = req.user;
-  const { id: _id } = req.params;
+  const { contactId: _id } = req.params;
 
   const contact = await getContact({ _id, userId });
   if (!contact) {
@@ -68,10 +68,10 @@ export const addContactController = async (req, res) => {
 };
 
 export const upsertContactController = async (req, res) => {
-  const { contactId } = req.params;
+  const { contactId: _id } = req.params;
   const { _id: userId } = req.user;
   const { isNew, data } = await updateContact(
-    contactId,
+    { contactId: _id },
     { ...req.body, userId },
     {
       upsert: true,
@@ -86,7 +86,7 @@ export const upsertContactController = async (req, res) => {
 };
 
 export const patchContactController = async (req, res) => {
-  const { id: _id } = req.params;
+  const { contactId: _id } = req.params;
   const { _id: userId } = req.user;
   const result = await updateContact({ _id, userId }, req.body);
   if (!result) {
@@ -100,7 +100,7 @@ export const patchContactController = async (req, res) => {
 };
 
 export const deleteContactController = async (req, res) => {
-  const { id: _id } = req.params;
+  const { contactId: _id } = req.params;
   const { _id: userId } = req.user;
   const result = await deleteContact({ _id, userId });
 
